@@ -1,0 +1,12 @@
+ID,English,Turkish,Genre,Context,Part_of_Speech,Notes
+1,Save Game,Oyunu Kaydet,UI,Save menu button,Verb,Standard UI translation
+2,Quest,Görev,RPG,Player task,Noun,Preferred over Mission in most RPGs
+3,Inventory,Envanter,UI,Item storage,Noun,Widely accepted term
+4,Skill Tree,Yetenek Ağacı,RPG,Character progression,Noun,Literal but natural
+5,Checkpoint,Kontrol Noktası,Gameplay,Progress save location,Noun,Common game term
+6,Map,Harita,UI,World or level map,Noun,Standard UI term
+7,Health,Can,Gameplay,Player health value,Noun,Common game term
+8,Exit Game,Oyundan Çık,UI,Leave the game,Verb,Standard UI translation
+9,Stamina,Dayanıklılık,Gameplay,Energy for actions,Noun,Common game term
+10,Settings,Ayarlar,UI,Game configuration menu,Noun,Standard UI term
+11,Options,Seçenekler,UI,Alternative settings menu,Noun,Sometimes interchangeable with Ayarlar
