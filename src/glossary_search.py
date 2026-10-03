@@ -12,18 +12,20 @@ while True:
     if search_term.lower() == "exit":
         print("Goodbye! 🌷")
         break
-
+    genre = input("What genre? (leave blank for all): ")
     match_count = 0
 
     for term in glossary:
         if (search_term.lower() in term["English"].lower()
                 or search_term.lower() in term["Turkish"].lower()):
-            print("English:", term["English"])
-            print("Turkish:", term["Turkish"])
-            print("Genre:", term["Genre"])
-            print("Context:", term["Context"])
-            print("Notes:", term["Notes"])
-            print()
+            if genre == "" or genre.lower() == term["Genre"].lower():
+                print("-----------------------------")
+                print("English:", term["English"])
+                print("Turkish:", term["Turkish"])
+                print("Genre:", term["Genre"])
+                print("Context:", term["Context"])
+                print("Notes:", term["Notes"])
+                print("-----------------------------")
 
             match_count += 1
 
