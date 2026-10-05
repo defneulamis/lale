@@ -1,5 +1,12 @@
 import csv
-
+def display_term(term):
+    print("-----------------------------")
+    print("English:", term["English"])
+    print("Turkish:", term["Turkish"])
+    print("Genre:", term["Genre"])
+    print("Context:", term["Context"])
+    print("Notes:", term["Notes"])
+    print("-----------------------------")
 print("Welcome to Lale!🌷")
 print("Turkish Game Localization Toolkit")
 
@@ -17,13 +24,7 @@ while True:
         print("Listing all terms in the glossary:")
 
         for term in glossary:
-            print("-----------------------------")
-            print("English:", term["English"])
-            print("Turkish:", term["Turkish"])
-            print("Genre:", term["Genre"])
-            print("Context:", term["Context"])
-            print("Notes:", term["Notes"])
-            print("-----------------------------")
+            display_term(term)
 
         continue
 
@@ -35,14 +36,7 @@ while True:
                 or search_term.lower() in term["Turkish"].lower()):
 
             if genre == "" or genre.lower() == term["Genre"].lower():
-                print("-----------------------------")
-                print("English:", term["English"])
-                print("Turkish:", term["Turkish"])
-                print("Genre:", term["Genre"])
-                print("Context:", term["Context"])
-                print("Notes:", term["Notes"])
-                print("-----------------------------")
-
+                display_term(term)
                 match_count += 1
 
     if match_count == 0:
