@@ -1,12 +1,48 @@
 import csv
 def display_term(term):
     print("-----------------------------")
+    print("ID:", term["ID"])
     print("English:", term["English"])
     print("Turkish:", term["Turkish"])
     print("Genre:", term["Genre"])
     print("Context:", term["Context"])
+    print("Part of Speech:", term["Part_of_Speech"])
     print("Notes:", term["Notes"])
     print("-----------------------------")
+
+
+def add_term():
+    term_id = input("Enter the ID: ")
+    english = input("Enter the English term: ")
+    turkish = input("Enter the Turkish term: ")
+    genre = input("Enter the genre: ")
+    context = input("Enter the context: ")
+    part_of_speech = input("Enter the part of speech: ")
+    notes = input("Enter any notes: ")
+
+    new_term = {
+        "ID": term_id,
+        "English": english,
+        "Turkish": turkish,
+        "Genre": genre,
+        "Context": context,
+        "Part_of_Speech": part_of_speech,
+        "Notes": notes
+    }
+
+    with open("data/glossary.csv", "a", newline="", encoding="utf-8") as file:
+        writer = csv.DictWriter(
+            file,
+            fieldnames=[
+                "ID", "English", "Turkish", "Genre",
+                "Context", "Part_of_Speech", "Notes"
+            ]
+        )
+        writer.writerow(new_term)
+
+    glossary.append(new_term)
+    print("Term added successfully!")
+
 print("Welcome to Lale!🌷")
 print("Turkish Game Localization Toolkit")
 
@@ -19,6 +55,9 @@ while True:
     if search_term.lower() == "exit":
         print("Goodbye! 🌷")
         break
+    if search_term.lower() == "add":
+        add_term()
+        continue
 
     if search_term.lower() == "list":
         print("Listing all terms in the glossary:")
