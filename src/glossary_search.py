@@ -1,4 +1,14 @@
 import csv
+
+def normalize_english(text):
+    return text.lower()
+
+
+def normalize_turkish(text):
+    text = text.replace("İ", "i")
+    text = text.replace("I", "ı")
+    return text.lower()
+
 def display_term(term):
     print("-----------------------------")
     print("ID:", term["ID"])
@@ -71,8 +81,8 @@ while True:
     match_count = 0
 
     for term in glossary:
-        if (search_term.lower() in term["English"].lower()
-                or search_term.lower() in term["Turkish"].lower()):
+        if (normalize_english(search_term) in normalize_english(term["English"])
+            or normalize_turkish(search_term) in normalize_turkish(term["Turkish"])):
 
             if genre == "" or genre.lower() == term["Genre"].lower():
                 display_term(term)
