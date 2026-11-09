@@ -69,17 +69,44 @@ def find_similar_terms(search_term, glossary, genre):
 
     return unique_matches
 
+def generate_id():
+    highest_id = 0
 
+    for term in glossary:
+        current_id = int(term["ID"])
+
+        if current_id > highest_id:
+            highest_id = current_id
+
+    return highest_id + 1
 
 def add_term():
-    term_id = input("Enter the ID: ")
-    english = input("Enter the English term: ")
-    turkish = input("Enter the Turkish term: ")
-    genre = input("Enter the genre: ")
-    context = input("Enter the context: ")
-    part_of_speech = input("Enter the part of speech: ")
-    notes = input("Enter any notes: ")
+    term_id = term_id = str(generate_id())
+    print("Generated ID:", term_id)
+    english = input("Enter the English term: ").strip()
+    turkish = input("Enter the Turkish term: ").strip()
+    genre = input("Enter the genre: ").strip()
+    context = input("Enter the context: ").strip()
+    part_of_speech = input("Enter the part of speech: ").strip()
+    notes = input("Enter any notes: ").strip()
 
+    # Check whether the ID already exists
+    for term in glossary:
+        if term["ID"].strip() == term_id:
+            print("This ID already exists!")
+            return
+
+    # Check whether the entry already exists
+    for term in glossary:
+        if (normalize_english(term["English"]) == normalize_english(english)
+                and normalize_turkish(term["Turkish"]) == normalize_turkish(turkish)
+                and term["Genre"].strip().lower() == genre.lower()
+                and term["Context"].strip().lower() == context.lower()):
+
+            print("This glossary entry already exists!")
+            return
+
+    # Create the new glossary entry
     new_term = {
         "ID": term_id,
         "English": english,
@@ -90,6 +117,7 @@ def add_term():
         "Notes": notes
     }
 
+    # Save the entry to the CSV file
     with open("data/glossary.csv", "a", newline="", encoding="utf-8") as file:
         writer = csv.DictWriter(
             file,
