@@ -136,8 +136,34 @@ def add_term():
 print("Welcome to Lale!🌷")
 print("Turkish Game Localization Toolkit")
 
+def validate_glossary(glossary):
+    seen_ids = []
+
+    for term in glossary:
+
+        # Check for missing required fields
+        for field in ["ID", "English", "Turkish", "Genre",
+                      "Context", "Part_of_Speech"]:
+
+            if term[field].strip() == "":
+                print(f"Error: Missing {field} in a glossary entry!")
+                return False
+
+        # Check for duplicate IDs
+        if term["ID"] in seen_ids:
+            print(f"Error: Duplicate ID found: {term['ID']}")
+            return False
+
+        seen_ids.append(term["ID"])
+
+    return True
+
 with open("data/glossary.csv", "r", encoding="utf-8") as file:
     glossary = list(csv.DictReader(file))
+
+if not validate_glossary(glossary):
+    print("Please fix the glossary.csv file before continuing.")
+    exit()
 
 
 while True:
