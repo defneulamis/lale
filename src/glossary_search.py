@@ -81,15 +81,17 @@ def generate_id():
     return highest_id + 1
 
 def add_term():
-    term_id = term_id = str(generate_id())
-    print("Generated ID:", term_id)
     english = input("Enter the English term: ").strip()
     turkish = input("Enter the Turkish term: ").strip()
     genre = input("Enter the genre: ").strip()
     context = input("Enter the context: ").strip()
     part_of_speech = input("Enter the part of speech: ").strip()
     notes = input("Enter any notes: ").strip()
-
+    if (english == "" or turkish == "" or genre == "" or context == "" or part_of_speech == ""):
+        print("Error: Required fields cannot be empty!")
+        return
+    term_id = str(generate_id())
+    print("Generated ID:", term_id)
     # Check whether the ID already exists
     for term in glossary:
         if term["ID"].strip() == term_id:
