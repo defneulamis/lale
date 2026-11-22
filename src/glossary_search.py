@@ -136,27 +136,63 @@ def add_term():
 print("Welcome to Lale!🌷")
 print("Turkish Game Localization Toolkit")
 
+
 def validate_glossary(glossary):
+    errors = []
     seen_ids = []
 
-    for term in glossary:
+    required_fields = [
+        "ID", "English", "Turkish", "Genre",
+        "Context", "Part_of_Speech"
+    ]
 
-        # Check for missing required fields
-        for field in ["ID", "English", "Turkish", "Genre",
-                      "Context", "Part_of_Speech"]:
+    for row_number, term in enumerate(glossary, start=2):
 
-            if term[field].strip() == "":
-                print(f"Error: Missing {field} in a glossary entry!")
-                return False
+        # Check required fields
+        for field in required_fields:
+            if term.get(field, "").strip() == "":
+                errors.append(
+                    f"Missing {field} in row {row_number}."
+                )
 
-        # Check for duplicate IDs
-        if term["ID"] in seen_ids:
-            print(f"Error: Duplicate ID found: {term['ID']}")
-            return False
+        # Check ID format and duplicates
+        term_id = term.get("ID", "").strip()
 
-        seen_ids.append(term["ID"])
+        if term_id != "":
+            if not term_id.isdigit():
+                errors.append(
+                    f"Invalid ID '{term_id}' in row {row_number}. "
+                    "IDs must contain positive whole numbers."
+                )
 
+            elif int(term_id) <= 0:
+                errors.append(
+                    f"ID must be greater than zero in row {row_number}."
+                )
+
+            else:
+                normalized_id = int(term_id)
+
+                if normalized_id in seen_ids:
+                    errors.append(
+                        f"Duplicate ID found: {term_id} "
+                        f"in row {row_number}."
+                    )
+                else:
+                    seen_ids.append(normalized_id)
+
+    # Display all errors
+    if errors:
+        print("\nGlossary validation failed!")
+
+        for error in errors:
+            print("-", error)
+
+        return False
+
+    print("Glossary validation passed!")
     return True
+
 
 with open("data/glossary.csv", "r", encoding="utf-8") as file:
     glossary = list(csv.DictReader(file))
