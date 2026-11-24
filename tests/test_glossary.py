@@ -68,6 +68,36 @@ class TestGlossaryValidation(unittest.TestCase):
 
         self.assertFalse(validate_glossary(glossary))
 
+    def test_invalid_id_format(self):
+        glossary = [
+            {
+                "ID": "abc",
+                "English": "Quest",
+                "Turkish": "Görev",
+                "Genre": "RPG",
+                "Context": "Player task",
+                "Part_of_Speech": "Noun",
+                "Notes": ""
+            }
+        ]
+
+        self.assertFalse(validate_glossary(glossary))
+
+    def test_zero_id(self):
+        glossary = [
+            {
+                "ID": "0",
+                "English": "Quest",
+                "Turkish": "Görev",
+                "Genre": "RPG",
+                "Context": "Player task",
+                "Part_of_Speech": "Noun",
+                "Notes": ""
+            }
+        ]
+
+        self.assertFalse(validate_glossary(glossary))
+
 
 if __name__ == "__main__":
     unittest.main()

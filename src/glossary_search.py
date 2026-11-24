@@ -133,9 +133,6 @@ def add_term():
     glossary.append(new_term)
     print("Term added successfully!")
 
-print("Welcome to Lale!🌷")
-print("Turkish Game Localization Toolkit")
-
 
 def validate_glossary(glossary):
     errors = []
@@ -194,14 +191,18 @@ def validate_glossary(glossary):
     return True
 
 
-with open("data/glossary.csv", "r", encoding="utf-8") as file:
-    glossary = list(csv.DictReader(file))
-
-if not validate_glossary(glossary):
-    print("Please fix the glossary.csv file before continuing.")
-    exit()
-
 if __name__ == "__main__":
+
+    print("Welcome to Lale!🌷")
+    print("Turkish Game Localization Toolkit")
+
+    with open("data/glossary.csv", "r", encoding="utf-8") as file:
+        glossary = list(csv.DictReader(file))
+
+    if not validate_glossary(glossary):
+        print("Please fix the glossary.csv file before continuing.")
+        exit()
+
     while True:
         search_term = input("\nWhat term are you looking for? ")
 
