@@ -201,52 +201,52 @@ if not validate_glossary(glossary):
     print("Please fix the glossary.csv file before continuing.")
     exit()
 
+if __name__ == "__main__":
+    while True:
+        search_term = input("\nWhat term are you looking for? ")
 
-while True:
-    search_term = input("\nWhat term are you looking for? ")
+        if search_term.lower() == "exit":
+            print("Goodbye! 🌷")
+            break
 
-    if search_term.lower() == "exit":
-        print("Goodbye! 🌷")
-        break
+        if search_term.lower() == "add":
+            add_term()
+            continue
 
-    if search_term.lower() == "add":
-        add_term()
-        continue
+        if search_term.lower() == "list":
+            print("Listing all terms in the glossary:")
 
-    if search_term.lower() == "list":
-        print("Listing all terms in the glossary:")
+            for term in glossary:
+                display_term(term)
+
+            continue
+
+        genre = input("What genre? (leave blank for all): ")
+        match_count = 0
 
         for term in glossary:
-            display_term(term)
+            if (normalize_english(search_term) in normalize_english(term["English"])
+                    or normalize_turkish(search_term) in normalize_turkish(term["Turkish"])):
 
-        continue
+                if genre == "" or genre.lower() == term["Genre"].lower():
+                    display_term(term)
+                    match_count += 1
 
-    genre = input("What genre? (leave blank for all): ")
-    match_count = 0
-
-    for term in glossary:
-        if (normalize_english(search_term) in normalize_english(term["English"])
-                or normalize_turkish(search_term) in normalize_turkish(term["Turkish"])):
-
-            if genre == "" or genre.lower() == term["Genre"].lower():
-                display_term(term)
-                match_count += 1
-
-    
+        
 
 
-    if match_count == 0:
-        similar_terms = find_similar_terms(search_term, glossary, genre)
+        if match_count == 0:
+            similar_terms = find_similar_terms(search_term, glossary, genre)
 
-        if similar_terms:
-            print("No exact matches. Did you mean:")
+            if similar_terms:
+                print("No exact matches. Did you mean:")
 
-            for term, score in similar_terms:
-                print(f"Similarity: {score:.0%}")
-                display_term(term)
+                for term, score in similar_terms:
+                    print(f"Similarity: {score:.0%}")
+                    display_term(term)
+
+            else:
+                print("No matching terms found.")
 
         else:
-            print("No matching terms found.")
-
-    else:
-        print("Matches found:", match_count)
+            print("Matches found:", match_count)
