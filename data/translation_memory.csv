@@ -1,0 +1,5 @@
+ID,English,Turkish,Context,Genre,Status,Notes
+1,The door is locked.,Kapı kilitli.,Player interaction,RPG,approved,Ancient door
+2,The door is open.,Kapı açık.,Player interaction,RPG,approved,Ancient door
+3,Your quest is complete.,Görevin tamamlandı.,Quest notification,RPG,approved,Quest completion
+4,Welcome back.,Tekrar hoş geldin.,NPC dialogue,RPG,draft,Needs review
