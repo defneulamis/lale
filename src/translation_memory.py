@@ -21,6 +21,9 @@ def get_approved_translations(translation_memory):
     return approved_translations
 
 def search_translation(search_text, translation_memory):
+    if search_text.strip() == "":
+        return []
+    
     results = []
 
     for entry in translation_memory:
