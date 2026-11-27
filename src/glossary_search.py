@@ -80,7 +80,7 @@ def generate_id():
 
     return highest_id + 1
 
-def add_term():
+def add_term(glossary):
     english = input("Enter the English term: ").strip()
     turkish = input("Enter the Turkish term: ").strip()
     genre = input("Enter the genre: ").strip()
@@ -90,7 +90,7 @@ def add_term():
     if (english == "" or turkish == "" or genre == "" or context == "" or part_of_speech == ""):
         print("Error: Required fields cannot be empty!")
         return
-    term_id = str(generate_id())
+    term_id = str(generate_id(glossary))
     print("Generated ID:", term_id)
     # Check whether the ID already exists
     for term in glossary:
@@ -189,15 +189,29 @@ def validate_glossary(glossary):
 
     print("Glossary validation passed!")
     return True
+def load_glossary():
+    with open("data/glossary.csv", "r", encoding="utf-8") as file:
+        return list(csv.DictReader(file))
 
+
+def search_terms(search_term, glossary, genre):
+    matches = []
+
+    for term in glossary:
+        if (normalize_english(search_term) in normalize_english(term["English"])
+                or normalize_turkish(search_term) in normalize_turkish(term["Turkish"])):
+
+            if genre == "" or genre.lower() == term["Genre"].lower():
+                matches.append(term)
+
+    return matches
 
 if __name__ == "__main__":
 
     print("Welcome to Lale!🌷")
     print("Turkish Game Localization Toolkit")
 
-    with open("data/glossary.csv", "r", encoding="utf-8") as file:
-        glossary = list(csv.DictReader(file))
+    glossary = load_glossary()
 
     if not validate_glossary(glossary):
         print("Please fix the glossary.csv file before continuing.")
@@ -211,7 +225,7 @@ if __name__ == "__main__":
             break
 
         if search_term.lower() == "add":
-            add_term()
+            add_term(glossary)
             continue
 
         if search_term.lower() == "list":
@@ -223,20 +237,9 @@ if __name__ == "__main__":
             continue
 
         genre = input("What genre? (leave blank for all): ")
-        match_count = 0
+        matches = search_terms(search_term, glossary, genre)
 
-        for term in glossary:
-            if (normalize_english(search_term) in normalize_english(term["English"])
-                    or normalize_turkish(search_term) in normalize_turkish(term["Turkish"])):
-
-                if genre == "" or genre.lower() == term["Genre"].lower():
-                    display_term(term)
-                    match_count += 1
-
-        
-
-
-        if match_count == 0:
+        if len(matches) == 0:
             similar_terms = find_similar_terms(search_term, glossary, genre)
 
             if similar_terms:
@@ -250,4 +253,7 @@ if __name__ == "__main__":
                 print("No matching terms found.")
 
         else:
-            print("Matches found:", match_count)
+            for term in matches:
+                display_term(term)
+
+            print("Matches found:", len(matches))
